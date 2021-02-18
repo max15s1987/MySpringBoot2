@@ -15,6 +15,8 @@
             <th>Age</th>
             <th>City</th>
             <th>E-mail</th>
+            <th>Password</th>
+            <th>Role</th>
         </tr>
             <tr th:each ="user : ${users}">
                 <td th:utext="${user.getId()}">...</td>
@@ -22,6 +24,7 @@
                 <td th:utext="${user.getAge()}">...</td>
                 <td th:utext="${user.getCity()}">...</td>
                 <td th:utext="${user.getEmail()}">...</td>
+                <td th:utext="${user.getRoles()}">...</td>
                 <td>
                     <a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a>
 

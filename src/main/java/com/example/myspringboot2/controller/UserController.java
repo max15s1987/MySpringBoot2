@@ -2,6 +2,7 @@ package com.example.myspringboot2.controller;
 
 
 import com.example.myspringboot2.model.User;
+import com.example.myspringboot2.service.RoleService;
 import com.example.myspringboot2.service.UserServiceImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final RoleService roleService;
 
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
@@ -27,6 +30,7 @@ public class UserController {
     @GetMapping("/admin/new")
     public String newUser(Model model) {
         model.addAttribute(new User());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "new";
     }
 
@@ -34,6 +38,7 @@ public class UserController {
     @PostMapping("/admin")
     public String createUser(@ModelAttribute("user") User user) {
         userService.save(user);
+        System.out.println("1: " + user.getPassword());
         return "redirect:/admin";
     }
 
@@ -45,6 +50,10 @@ public class UserController {
         }
 
         model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("roles", roleService.getAllRoles());
+
+        System.out.println("2: " + userService.getUserById(id).getPassword());
+
         return "edit";
     }
 
@@ -56,6 +65,7 @@ public class UserController {
         }
 
         userService.save(user);
+        System.out.println("3: " + user.getPassword());
         return "redirect:/admin";
     }
 

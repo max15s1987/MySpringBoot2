@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -103,8 +103,7 @@ public class User implements UserDetails {
     }
 
     public void setPassword(String password) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
+        this.password = password;
 
     }
 

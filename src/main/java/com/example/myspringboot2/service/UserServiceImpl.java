@@ -4,6 +4,8 @@ package com.example.myspringboot2.service;
 import com.example.myspringboot2.model.User;
 import com.example.myspringboot2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 public class UserServiceImpl {
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -22,7 +25,26 @@ public class UserServiceImpl {
     }
 
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public void update(Long id, User user) {
+
+        User userUpdate = getUserById(id);
+
+        userUpdate.setName(user.getName());
+        userUpdate.setAge(user.getAge());
+        userUpdate.setCity(user.getCity());
+        userUpdate.setEmail(user.getEmail());
+        userUpdate.setRoles(user.getRoles());
+
+        if (user.getPassword().equals(userUpdate.getPassword())) {
+            userRepository.save(userUpdate);
+        } else {
+            userUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(userUpdate);
+        }
     }
 
     public void remove(Long id) {

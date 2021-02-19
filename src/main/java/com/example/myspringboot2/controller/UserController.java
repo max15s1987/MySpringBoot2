@@ -38,7 +38,6 @@ public class UserController {
     @PostMapping("/admin")
     public String createUser(@ModelAttribute("user") User user) {
         userService.save(user);
-        System.out.println("1: " + user.getPassword());
         return "redirect:/admin";
     }
 
@@ -52,8 +51,6 @@ public class UserController {
         model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("roles", roleService.getAllRoles());
 
-        System.out.println("2: " + userService.getUserById(id).getPassword());
-
         return "edit";
     }
 
@@ -64,8 +61,7 @@ public class UserController {
             return "unknownUser";
         }
 
-        userService.save(user);
-        System.out.println("3: " + user.getPassword());
+        userService.update(id, user);
         return "redirect:/admin";
     }
 

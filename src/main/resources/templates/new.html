@@ -33,7 +33,7 @@
             <tr>
                 <td>Role: </td>
                 <td>
-                    <select th:field="*{roles}">
+                    <select th:field="*{roles}" multiple="multiple">
                         <option value=""> -- </option>
                         <option th:each="role : ${roles}"
                                 th:value="${role.getId()}"

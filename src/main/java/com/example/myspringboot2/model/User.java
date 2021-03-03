@@ -3,11 +3,10 @@ package com.example.myspringboot2.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,11 +20,11 @@ public class User implements UserDetails {
     @Column
     private String name;
 
-    @Column
-    private Integer age;
+    @Column (name = "lastname")
+    private String lastName;
 
     @Column
-    private String city;
+    private Integer age;
 
     @Column(unique = true)
     private String email;
@@ -40,11 +39,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(Long id, String name, Integer age, String city, String email, String password, Set<Role> roles) {
+    public User(Long id, String name, Integer age, String lastName, String email, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.city = city;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -78,12 +77,12 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public String getCity() {
-        return city;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -105,6 +104,14 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
 
+    }
+
+    public String toStringRoles() {
+        StringBuilder s = new StringBuilder();
+        for (Role x : roles) {
+            s.append(x.getRole().substring(5)).append(" ");
+        }
+        return s.toString().trim();
     }
 
     @Override

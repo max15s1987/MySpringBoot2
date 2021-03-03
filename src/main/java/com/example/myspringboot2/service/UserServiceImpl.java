@@ -3,7 +3,6 @@ package com.example.myspringboot2.service;
 
 import com.example.myspringboot2.model.User;
 import com.example.myspringboot2.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,8 @@ public class UserServiceImpl {
         User userUpdate = getUserById(id);
 
         userUpdate.setName(user.getName());
+        userUpdate.setLastName(user.getLastName());
         userUpdate.setAge(user.getAge());
-        userUpdate.setCity(user.getCity());
         userUpdate.setEmail(user.getEmail());
         userUpdate.setRoles(user.getRoles());
 
@@ -57,6 +56,11 @@ public class UserServiceImpl {
 
     public boolean checkId(Long id) {
         return !userRepository.existsById(id);
+    }
+
+    public User findById(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid filledUser Id:" + id));
     }
 
 

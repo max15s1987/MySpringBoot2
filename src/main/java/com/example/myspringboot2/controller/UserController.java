@@ -24,37 +24,28 @@ public class UserController {
     @GetMapping("/admin")
     public String getPeopleList(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "users";
+        model.addAttribute("roles", roleService.getAllRoles());
+
+        return "admin";
     }
 
-    @GetMapping("/admin/new")
+    @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute(new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "new";
+        return "admin";
     }
 
 
-    @PostMapping("/admin")
-    public String createUser(@ModelAttribute("user") User user) {
+    @PostMapping("/new")
+    public String createUser(User user) {
         userService.save(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit")
-    public String edit(Model model, @RequestParam(value ="id") Long id) {
 
-        if (userService.checkId(id)) {
-            return "unknownUser";
-        }
 
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-
-        return "edit";
-    }
-
-    @PostMapping("/admin/edit")
+    @PostMapping("/update")
     public String update(@ModelAttribute("user") User user, @RequestParam(value ="id") Long id) {
 
         if (userService.checkId(id)) {
@@ -68,11 +59,11 @@ public class UserController {
     @GetMapping("/user")
     public String getUserById(Model model) {
         Long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        model.addAttribute("user", userService.getUserById(id));
-        return "showuser";
+        model.addAttribute("userInfo", userService.getUserById(id));
+        return "user";
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public String delete(@RequestParam(value = "id") Long id) {
 
         if (userService.checkId(id)) {
@@ -81,6 +72,12 @@ public class UserController {
 
         userService.remove(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/findOne")
+    @ResponseBody
+    public User findOne(Long id) {
+        return userService.findById(id);
     }
 
     @GetMapping("/login")

@@ -15,14 +15,12 @@ import java.util.List;
 public class UserRestController {
 
     private final UserServiceImpl userService;
-    private final RoleService roleService;
 
     @Autowired
     private UserConverter userConverter;
 
-    public UserRestController(UserServiceImpl userService, RoleService roleService) {
+    public UserRestController(UserServiceImpl userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/users")
@@ -32,20 +30,21 @@ public class UserRestController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.findById(id);
+    public UserDTO getUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        return userConverter.entityToDto(user);
     }
 
     @PostMapping("/users")
-    public User addNewUser(@RequestBody User user) {
+    public UserDTO addNewUser(@RequestBody User user) {
         userService.save(user);
-        return user;
+        return userConverter.entityToDto(user);
     }
 
     @PutMapping("/users")
-    public User updateUser(@RequestBody User user) {
+    public UserDTO updateUser(@RequestBody User user) {
         userService.update(user);
-        return user;
+        return userConverter.entityToDto(user);
     }
 
     @DeleteMapping("/users/{id}")

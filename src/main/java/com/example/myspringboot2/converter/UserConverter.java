@@ -1,14 +1,21 @@
 package com.example.myspringboot2.converter;
 
+import com.example.myspringboot2.dto.RoleDTO;
 import com.example.myspringboot2.dto.UserDTO;
+import com.example.myspringboot2.model.Role;
 import com.example.myspringboot2.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class UserConverter {
+
+    @Autowired
+    private RoleConverter roleConverter;
 
     public UserDTO entityToDto(User user) {
 
@@ -17,8 +24,9 @@ public class UserConverter {
         userDTO.setName(user.getName());
         userDTO.setLastName(user.getLastName());
         userDTO.setAge(user.getAge());
+        userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
-        userDTO.setRoles(user.getRoles());
+        userDTO.setRoles(roleConverter.toDTOs(new ArrayList<>(user.getRoles())));
 
         return userDTO;
     }
@@ -35,8 +43,9 @@ public class UserConverter {
         user.setName(userDTO.getName());
         user.setLastName(userDTO.getLastName());
         user.setAge(userDTO.getAge());
+        user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        user.setRoles(userDTO.getRoles());
+//        user.setRoles(userDTO.getRoles().stream().collect(Collectors.toSet()));
 
         return user;
     }

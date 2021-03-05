@@ -1,8 +1,8 @@
 package com.example.myspringboot2.dto;
 
 import com.example.myspringboot2.model.Role;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.List;
 
 public class UserDTO {
 
@@ -12,13 +12,13 @@ public class UserDTO {
     private Integer age;
     private String email;
     private String password;
-    private Set<Role> roles = new HashSet<>();
+    private List<RoleDTO> roles;
 
     public UserDTO() {
 
     }
 
-    public UserDTO(Long id, String name, String lastName, Integer age, String email, String password, Set<Role> roles) {
+    public UserDTO(Long id, String name, String lastName, Integer age, String email, String password, List<RoleDTO> roles) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -76,11 +76,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<RoleDTO> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<RoleDTO> roles) {
         this.roles = roles;
     }
 }

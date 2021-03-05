@@ -1,7 +1,6 @@
 package com.example.myspringboot2.service;
 
 import com.example.myspringboot2.model.Role;
-import com.example.myspringboot2.model.User;
 import com.example.myspringboot2.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 

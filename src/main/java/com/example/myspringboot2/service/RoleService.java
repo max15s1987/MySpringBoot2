@@ -20,4 +20,8 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
+    public Role getRoleById(Long id) {
+        return roleRepository.getOne(id);
+    }
+
 }

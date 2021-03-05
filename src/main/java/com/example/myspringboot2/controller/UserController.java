@@ -25,6 +25,8 @@ public class UserController {
     public String getPeopleList(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.getAllRoles());
+        Long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        model.addAttribute("userInfo", userService.getUserById(id));
 
         return "admin";
     }
@@ -52,7 +54,7 @@ public class UserController {
             return "unknownUser";
         }
 
-        userService.update(id, user);
+        userService.update(user);
         return "redirect:/admin";
     }
 

@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @Column
     private String name;
 
-    @Column (name = "lastname")
+    @Column (name = "last_name")
     private String lastName;
 
     @Column

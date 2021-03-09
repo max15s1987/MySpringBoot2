@@ -3,9 +3,9 @@ package com.example.myspringboot2.controller;
 import com.example.myspringboot2.converter.UserConverter;
 import com.example.myspringboot2.dto.UserDTO;
 import com.example.myspringboot2.model.User;
-import com.example.myspringboot2.service.RoleService;
 import com.example.myspringboot2.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,27 +24,27 @@ public class UserRestController {
     }
 
     @GetMapping("/users")
-    public List<UserDTO> getPeopleList() {
+    public ResponseEntity<List<UserDTO>> getPeopleList() {
         List<User> allUsers = userService.getAllUsers();
-        return userConverter.entityToDo(allUsers);
+        return ResponseEntity.ok(userConverter.entityToDo(allUsers));
     }
 
     @GetMapping("/users/{id}")
-    public UserDTO getUser(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         User user = userService.findById(id);
-        return userConverter.entityToDto(user);
+        return ResponseEntity.ok(userConverter.entityToDto(user));
     }
 
     @PostMapping("/users")
-    public UserDTO addNewUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> addNewUser(@RequestBody User user) {
         userService.save(user);
-        return userConverter.entityToDto(user);
+        return ResponseEntity.ok(userConverter.entityToDto(user));
     }
 
     @PutMapping("/users")
-    public UserDTO updateUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> updateUser(@RequestBody User user) {
         userService.update(user);
-        return userConverter.entityToDto(user);
+        return ResponseEntity.ok(userConverter.entityToDto(user));
     }
 
     @DeleteMapping("/users/{id}")
